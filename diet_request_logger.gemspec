@@ -34,9 +34,7 @@ Gem::Specification.new do |spec|
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 
-  if spec.respond_to?(:metadata)
-    spec.metadata["allowed_push_host"] = "http://gem.drecom.co.jp"
-  end
+  spec.metadata["allowed_push_host"] = "http://gem.drecom.co.jp" if spec.respond_to?(:metadata)
 
   spec.add_dependency "rack"
 

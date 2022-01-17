@@ -12,5 +12,5 @@ gem "rspec", "~> 3.0"
 gem "rubocop", "~> 1.21"
 
 source "http://gem.drecom.co.jp" do
-    gem 'drecom_gem'
+  gem "drecom_gem"
 end
