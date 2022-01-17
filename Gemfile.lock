@@ -5,22 +5,26 @@ PATH
       rack
 
 GEM
-  remote: https://rubygems.org/
+  remote: http://gem.drecom.co.jp/
   specs:
-    ast (2.4.2)
     awesome_release (0.3.5)
       dotenv
       gitlab (>= 4.0.0)
-    builder (3.2.4)
-    diff-lcs (1.5.0)
-    dotenv (2.7.6)
     drecom_gem (1.4.6)
       awesome_release
       bundler (>= 1.11)
       dotenv
       geminabox
       thor
-    faraday (2.0.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ast (2.4.2)
+    builder (3.2.4)
+    diff-lcs (1.5.0)
+    dotenv (2.7.6)
+    faraday (2.1.0)
       faraday-net_http (~> 2.0)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (2.0.1)
@@ -102,7 +106,7 @@ PLATFORMS
 DEPENDENCIES
   bundler
   diet_request_logger!
-  drecom_gem
+  drecom_gem!
   rake (~> 13.0)
   rspec (~> 3.0)
   rubocop (~> 1.21)
