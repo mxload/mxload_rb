@@ -35,11 +35,13 @@ Gem::Specification.new do |spec|
   # guide at: https://bundler.io/guides/creating_gem.html
 
   spec.metadata['allowed_push_host'] = 'http://gem.drecom.co.jp' if spec.respond_to?(:metadata)
+  spec.metadata['rubygems_mfa_required'] = 'true'
 
   spec.add_dependency 'rack'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'drecom_gem'
+  spec.add_development_dependency 'puma'
+  spec.add_development_dependency 'rack-test'
   spec.add_development_dependency 'rake'
-  spec.metadata['rubygems_mfa_required'] = 'true'
 end
