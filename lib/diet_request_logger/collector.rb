@@ -8,11 +8,34 @@ module DietRequestLogger
     end
 
     def call(env)
-      # TODO: envからリクエスト内容の取得
+      dup._call(env)
+    end
+
+    def _call(env)
+      get_request_log(env)
       status, headers, body = @app.call(env)
-      # TODO: statusの取得
-      # TODO: ログ送信
+      get_response_log(status, headers, body)
+      send_log
       [status, headers, body]
+    end
+
+    def send_log
+      # TODO: 実装
+    end
+
+    def get_request_log(env)
+      @method = env['REQUEST_METHOD']
+      @path = env['PATH_INFO']
+      @query = Rack::Utils.parse_nested_query(env['QUERY_STRING'])
+      @cookie = Rack::Utils.parse_cookies(env)
+      @headers = env.select { |k, _v| k.start_with?('HTTP_') }
+      @request_id = env['HTTP_X_REQUEST_ID']
+      @body = env['rack.input'].string
+    end
+
+    def get_response_log(status, headers, _body)
+      @request_id ||= headers['X-Request-Id']
+      @status = status
     end
   end
 end
