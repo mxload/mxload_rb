@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# include DietRequestLogger
+require 'active_support/all'
+
 require_relative 'lib/diet_request_logger/collector'
 
 # rack app for on local
@@ -10,5 +11,6 @@ class App
   end
 end
 
+Time.zone = 'Asia/Tokyo'
 use DietRequestLogger::Collector
 run App.new

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'active_support/all'
 require 'json'
 require 'securerandom'
 
@@ -20,6 +21,7 @@ RSpec.describe DietRequestLogger do
     DietRequestLogger::Collector.new(test_app)
   end
 
+  Time.zone = 'Asia/Tokyo'
   DietRequestLogger.configuration.enable = true
 
   it 'not change get request contents' do

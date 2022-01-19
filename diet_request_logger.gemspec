@@ -37,6 +37,7 @@ Gem::Specification.new do |spec|
   spec.metadata['allowed_push_host'] = 'http://gem.drecom.co.jp' if spec.respond_to?(:metadata)
   spec.metadata['rubygems_mfa_required'] = 'true'
 
+  spec.add_dependency 'activesupport'
   spec.add_dependency 'gem_config'
   spec.add_dependency 'rack'
 

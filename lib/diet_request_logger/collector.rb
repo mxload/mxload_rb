@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_support/all'
+
 require 'gem_config'
 
 module DietRequestLogger # rubocop:disable Style/Documentation
@@ -38,6 +40,7 @@ module DietRequestLogger # rubocop:disable Style/Documentation
     end
 
     def get_request_log(env)
+      @time_stamp = Time.current.to_i
       @method = env['REQUEST_METHOD']
       @path = env['PATH_INFO']
       @query = Rack::Utils.parse_nested_query(env['QUERY_STRING'])
