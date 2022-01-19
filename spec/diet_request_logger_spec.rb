@@ -14,7 +14,7 @@ RSpec.describe DietRequestLogger do
   end
 
   include Rack::Test::Methods
-  
+
   def app
     test_app = TestApplication.new
     DietRequestLogger::Collector.new(test_app)
@@ -54,7 +54,7 @@ RSpec.describe DietRequestLogger do
     expect(last_response.status).to eq 200
   end
 
-  it 'get request log' do
+  it 'get request log at GET' do
     DietRequestLogger.configuration.user_key = 'USER_DATA'
 
     path = '/api/get'
@@ -81,7 +81,30 @@ RSpec.describe DietRequestLogger do
     expect(collector.instance_variable_get('@cookie')).to eq Rack::Utils.parse_cookies_header(cookie)
     expect(collector.instance_variable_get('@headers')['HTTP_USER_AGENT']).to eq user_agent
     expect(collector.instance_variable_get('@request_id')).to eq uuid
-    expect(collector.instance_variable_get('@body')).to eq nil
+    expect(collector.instance_variable_get('@user_id')).to eq user_id
+
+    DietRequestLogger.configuration.user_key = nil
+  end
+
+  it 'get request log at POST' do
+    DietRequestLogger.configuration.user_key = 'user_id'
+    path = '/api/post'
+    user_id = 'user-id'
+    json_str = JSON.generate(key: [{ user_id: user_id }])
+
+    collector = app
+    env = Rack::MockRequest.env_for(
+      path,
+      'REQUEST_METHOD' => 'POST',
+      'HTTP_CONTENT_TYPE' => 'application/json',
+      'rack.input' => StringIO.new(json_str)
+    )
+
+    collector.get_request_log(env)
+
+    expect(collector.instance_variable_get('@method')).to eq 'POST'
+    expect(collector.instance_variable_get('@path')).to eq path
+    expect(collector.instance_variable_get('@body')).to eq json_str
     expect(collector.instance_variable_get('@user_id')).to eq user_id
 
     DietRequestLogger.configuration.user_key = nil

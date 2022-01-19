@@ -2,7 +2,7 @@
 
 require 'gem_config'
 
-module DietRequestLogger
+module DietRequestLogger # rubocop:disable Style/Documentation
   include GemConfig::Base
 
   with_configuration do
@@ -44,15 +44,50 @@ module DietRequestLogger
       @cookie = Rack::Utils.parse_cookies(env)
       @headers = env.select { |k, _v| k.start_with?('HTTP_') }
       @request_id = env['HTTP_X_REQUEST_ID']
-      input = env['rack.input']
-      input.rewind
-      @body = input.gets
-      @user_id = env["HTTP_#{@user_key}"]
+      get_request_body(env)
+      get_user_id(env)
     end
 
     def get_response_log(status, headers, _body)
       @request_id ||= headers['X-Request-Id']
       @status = status
+    end
+
+    private
+
+    def get_request_body(env)
+      input = env['rack.input']
+      @body = input.gets
+      input.rewind
+    end
+
+    def get_user_id(env)
+      @user_id = env["HTTP_#{@user_key}"] || (@body && find_value_recursive(@user_key, JSON.parse(@body)))
+    end
+
+    def find_value_recursive(key, object)
+      case object
+      when Hash
+        find_value_recursive_hash(key, object)
+      when Array
+        find_value_recursive_array(key, object)
+      end
+    end
+
+    def find_value_recursive_hash(key, hash)
+      return hash[key] if hash.key?(key)
+
+      hash.each do |_k, v|
+        res = find_value_recursive(key, v)
+        break res if res
+      end
+    end
+
+    def find_value_recursive_array(key, array)
+      array.each do |v|
+        res = find_value_recursive(key, v)
+        break res if res
+      end
     end
   end
 end
