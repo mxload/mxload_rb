@@ -30,7 +30,9 @@ module DietRequestLogger
       @cookie = Rack::Utils.parse_cookies(env)
       @headers = env.select { |k, _v| k.start_with?('HTTP_') }
       @request_id = env['HTTP_X_REQUEST_ID']
-      @body = env['rack.input'].string
+      input = env['rack.input']
+      input.rewind
+      @body = input.gets
     end
 
     def get_response_log(status, headers, _body)
