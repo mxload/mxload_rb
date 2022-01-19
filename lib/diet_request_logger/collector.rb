@@ -1,10 +1,22 @@
 # frozen_string_literal: true
 
+require 'gem_config'
+
 module DietRequestLogger
+  include GemConfig::Base
+
+  with_configuration do
+    has :enable, default: false
+    has :app_id, default: nil
+    has :user_key, default: nil
+  end
+
   # send request content and status code for auto loadtest
   class Collector
     def initialize(app)
       @app = app
+      @enable = DietRequestLogger.configuration.enable
+      @user_key = DietRequestLogger.configuration.user_key
     end
 
     def call(env)
@@ -12,10 +24,12 @@ module DietRequestLogger
     end
 
     def _call(env)
-      get_request_log(env)
+      get_request_log(env) if @enable
       status, headers, body = @app.call(env)
-      get_response_log(status, headers, body)
-      send_log
+      if @enable
+        get_response_log(status, headers, body)
+        send_log
+      end
       [status, headers, body]
     end
 
@@ -33,6 +47,7 @@ module DietRequestLogger
       input = env['rack.input']
       input.rewind
       @body = input.gets
+      @user_id = env["HTTP_#{@user_key}"]
     end
 
     def get_response_log(status, headers, _body)

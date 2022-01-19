@@ -14,11 +14,13 @@ RSpec.describe DietRequestLogger do
   end
 
   include Rack::Test::Methods
-
+  
   def app
     test_app = TestApplication.new
     DietRequestLogger::Collector.new(test_app)
   end
+
+  DietRequestLogger.configuration.enable = true
 
   it 'not change get request contents' do
     path = '/api/get'
@@ -53,18 +55,22 @@ RSpec.describe DietRequestLogger do
   end
 
   it 'get request log' do
+    DietRequestLogger.configuration.user_key = 'USER_DATA'
+
     path = '/api/get'
     query = 'key1=value1&key2=value2'
     user_agent = 'test-agent'
     cookie = 'key=value'
     uuid = SecureRandom.uuid
+    user_id = 'user-id'
 
     collector = app
     env = Rack::MockRequest.env_for(
       "#{path}?#{query}",
       'HTTP_USER_AGENT' => user_agent,
       'HTTP_COOKIE' => cookie,
-      'HTTP_X_REQUEST_ID' => uuid
+      'HTTP_X_REQUEST_ID' => uuid,
+      'HTTP_USER_DATA' => user_id
     )
 
     collector.get_request_log(env)
@@ -76,6 +82,9 @@ RSpec.describe DietRequestLogger do
     expect(collector.instance_variable_get('@headers')['HTTP_USER_AGENT']).to eq user_agent
     expect(collector.instance_variable_get('@request_id')).to eq uuid
     expect(collector.instance_variable_get('@body')).to eq nil
+    expect(collector.instance_variable_get('@user_id')).to eq user_id
+
+    DietRequestLogger.configuration.user_key = nil
   end
 
   it 'get response log' do
