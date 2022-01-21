@@ -1,9 +1,47 @@
-image: ruby:3.1.0
+image: drecom/centos-ruby:latest
 
 before_script:
   - gem install bundler -v 2.3.4
   - bundle install
 
-example_job:
+variables:
+  RAILS_ENV: 'test'
+
+stages:
+  - test
+
+.rspec-default: &rspec-default
+  stage: test
   script:
-    - bundle exec rake
+    - bundle exec rubocop
+    - bundle exec rspec
+  services:
+    - mysql:5.7
+
+.use-ruby2_5: &use-ruby2_5
+  image: drecom/centos-ruby:2.5.9
+
+.use-ruby2_6: &use-ruby2_6
+  image: drecom/centos-ruby:2.6.7
+
+.use-ruby2_7: &use-ruby2_7
+  image: drecom/centos-ruby:2.7.3
+
+.use-ruby3_0: &use-ruby3_0
+  image: drecom/centos-ruby:3.0.2
+
+ruby2.5:
+    <<: *rspec-default
+    <<: *use-ruby2_5
+
+ruby2.6:
+    <<: *rspec-default
+    <<: *use-ruby2_6
+
+ruby2.7:
+    <<: *rspec-default
+    <<: *use-ruby2_7
+
+ruby3.0:
+    <<: *rspec-default
+    <<: *use-ruby3_0
