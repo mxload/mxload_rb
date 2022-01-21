@@ -43,7 +43,9 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'drecom_gem'
+  spec.add_development_dependency 'mysql2'
   spec.add_development_dependency 'puma'
   spec.add_development_dependency 'rack-test'
+  spec.add_development_dependency 'rails'
   spec.add_development_dependency 'rake'
 end
