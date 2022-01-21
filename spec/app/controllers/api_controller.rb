@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class ApiController < ActionController::Base
+require 'rails/application_controller'
+
+class ApiController < Rails::ApplicationController
   def get
     render plain: 'test body'
   end
