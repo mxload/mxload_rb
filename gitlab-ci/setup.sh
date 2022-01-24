@@ -1,4 +1,4 @@
-#!bin/bash -xe
+#!/usr/bin/bash -xe
 
 cp gitlab-ci/application_template/application_${RAILS_VERSION}.rb spec/config/application.rb
 
