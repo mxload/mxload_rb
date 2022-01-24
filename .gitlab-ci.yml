@@ -27,12 +27,9 @@ stages:
 .use-ruby3_0: &use-ruby3_0
   image: drecom/centos-ruby:3.0.2
 
-# rails 6.0だとアプリが起動できなかったので除外している
-# NameError:
-#   uninitialized constant ActionText::Engine::ApplicationControlle
-#.use-rails6_0: &use-rails6_0
-#  variables:
-#    BUNDLE_GEMFILE: "spec/gemfiles/rails6_0.gemfile"
+.use-rails6_0: &use-rails6_0
+  variables:
+    BUNDLE_GEMFILE: "spec/gemfiles/rails6_0.gemfile"
 
 .use-rails6_1: &use-rails6_1
   variables:
@@ -42,10 +39,20 @@ stages:
   variables:
     BUNDLE_GEMFILE: "spec/gemfiles/rails7_0.gemfile"
 
+ruby2.6-rails6.0:
+    <<: *rspec-default
+    <<: *use-ruby2_6
+    <<: *use-rails6_0
+
 ruby2.6-rails6.1:
     <<: *rspec-default
     <<: *use-ruby2_6
     <<: *use-rails6_1
+
+ruby2.7-rails6.0:
+    <<: *rspec-default
+    <<: *use-ruby2_7
+    <<: *use-rails6_0
 
 ruby2.7-rails6.1:
     <<: *rspec-default
@@ -56,6 +63,11 @@ ruby2.7-rails7.0:
     <<: *rspec-default
     <<: *use-ruby2_7
     <<: *use-rails7_0
+
+ruby3.0-rails6.0:
+    <<: *rspec-default
+    <<: *use-ruby3_0
+    <<: *use-rails6_0
 
 ruby3.0-rails6.1:
     <<: *rspec-default
