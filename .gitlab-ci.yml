@@ -1,8 +1,7 @@
 image: drecom/centos-ruby:latest
 
 before_script:
-  - gem install bundler -v 2.3.4
-  - bundle install
+  - ./gitlab-ci/setup.sh
 
 variables:
   RAILS_ENV: 'test'
@@ -30,14 +29,17 @@ stages:
 .use-rails6_0: &use-rails6_0
   variables:
     BUNDLE_GEMFILE: "spec/gemfiles/rails6_0.gemfile"
+    RAILS_VERSION: '6.0'
 
 .use-rails6_1: &use-rails6_1
   variables:
     BUNDLE_GEMFILE: "spec/gemfiles/rails6_1.gemfile"
+    RAILS_VERSION: '6.1'
 
 .use-rails7_0: &use-rails7_0
   variables:
     BUNDLE_GEMFILE: "spec/gemfiles/rails7_0.gemfile"
+    RAILS_VERSION: '7.0'
 
 ruby2.6-rails6.0:
     <<: *rspec-default
