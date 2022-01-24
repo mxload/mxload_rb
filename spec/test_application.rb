@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails/all'
-
+require_relative 'config/application'
 module TestApplication
   class Application < Rails::Application
     config.root = './spec'
