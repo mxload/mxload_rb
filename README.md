@@ -23,7 +23,7 @@ Or install it yourself as:
 ## Configuration
 - enable
     - used for switching enabled/disabled of this gem
-- app_id
+- project_id
     - used for identifying loadtest target app
 - user_key
     - used for finding parameter identifying request user
