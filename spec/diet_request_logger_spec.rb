@@ -7,6 +7,7 @@ require 'uri'
 require 'active_support/all'
 require 'rails'
 require 'rack/test'
+require 'webmock/rspec'
 
 require 'test_application'
 require 'diet_request_logger/collector'
@@ -28,6 +29,10 @@ RSpec.describe DietRequestLogger do
   DietRequestLogger.configuration.enable = true
 
   it 'not change get request contents' do
+    WebMock.enable!
+    stub_request(:any, DietRequestLogger::Collector::PUT_URL)
+      .to_return(body: 'mock', status: 200, headers: {})
+
     path = '/api/get'
     query = 'key1=value1&key2=value2'
     user_agent = 'test-agent'
@@ -47,6 +52,10 @@ RSpec.describe DietRequestLogger do
   end
 
   it 'not change post request contents' do
+    WebMock.enable!
+    stub_request(:any, DietRequestLogger::Collector::PUT_URL)
+      .to_return(body: 'mock', status: 200, headers: {})
+
     path = '/api/post'
     json_str = JSON.generate(key: 'value')
 

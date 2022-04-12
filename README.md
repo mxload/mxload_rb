@@ -17,13 +17,21 @@ Or install it yourself as:
     $ gem install diet_request_logger
 
 ## Usage
+Write bellow code in config/application.rb ( or config/environments/{RAILS_ENV}.rb ).
 
-    config.middleware.insert_before(0, DietRequestLogger)
-
+    config.middleware.insert_before(0, DietRequestLogger::Collector)
 ## Configuration
+Create initializer file at config/initializer/diet_request_logger.rb and write bellow code.
+
+    DietRequestLogger.configure do |config|
+        config.enable = true
+        config.project_id = 1
+        config.user_key = 'user'
+    end
+
 - enable
     - used for switching enabled/disabled of this gem
-- app_id
+- project_id
     - used for identifying loadtest target app
 - user_key
     - used for finding parameter identifying request user

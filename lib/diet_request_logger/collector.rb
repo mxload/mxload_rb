@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'uri'
+require 'net/http'
 require 'active_support/all'
 
 require 'gem_config'
@@ -9,15 +11,18 @@ module DietRequestLogger # rubocop:disable Style/Documentation
 
   with_configuration do
     has :enable, default: false
-    has :app_id, default: nil
+    has :project_id, default: nil
     has :user_key, default: nil
   end
 
   # send request content and status code for auto loadtest
   class Collector
+    PUT_URL = 'https://stg-lambda.diet.drev.jp/put-request-log'
+
     def initialize(app)
       @app = app
       @enable = DietRequestLogger.configuration.enable
+      @project_id = DietRequestLogger.configuration.project_id
       @user_key = DietRequestLogger.configuration.user_key
     end
 
@@ -36,8 +41,32 @@ module DietRequestLogger # rubocop:disable Style/Documentation
     end
 
     def send_log
-      # TODO: 実装
+      url = URI.parse(PUT_URL)
+      req_header = { 'Content-Type': 'application/json' }
+      param = create_param_json
+
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = true
+      http.post(url.path, param, req_header)
     end
+
+    # rubocop:disable Metrics/MethodLength
+    def create_param_json
+      {
+        project_id: @project_id,
+        requested_at: @time_stamp,
+        method: @method,
+        path: @path,
+        query: @query,
+        cookie: @cookie,
+        request_id: @request_id,
+        status: @status,
+        header: @headers,
+        user_key: @user_id,
+        body: @body
+      }.to_json
+    end
+    # rubocop:enable Metrics/MethodLength
 
     def get_request_log(env)
       @time_stamp = Time.current.to_i
