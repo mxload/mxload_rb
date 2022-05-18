@@ -26,7 +26,28 @@ RSpec.describe DietRequestLogger do
     DietRequestLogger::Collector.new(Rails.application)
   end
 
-  DietRequestLogger.configuration.enable = true
+  it 'disable send log' do
+    DietRequestLogger.configuration.enable = false
+    DietRequestLogger.configuration.user_key = 'user_id'
+
+    path = '/api/get'
+    uuid = SecureRandom.uuid
+
+    collector = app
+    env = Rack::MockRequest.env_for(
+      path,
+      'HTTP_X_REQUEST_ID' => uuid
+    )
+
+    collector._call(env)
+
+    expect(collector.instance_variable_get('@method')).to eq nil
+    expect(collector.instance_variable_get('@path')).to eq nil
+    expect(collector.instance_variable_get('@request_id')).to eq nil
+
+    DietRequestLogger.configuration.enable = true
+    DietRequestLogger.configuration.user_key = nil
+  end
 
   it 'not change get request contents' do
     WebMock.enable!
