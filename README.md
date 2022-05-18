@@ -19,6 +19,8 @@ Or install it yourself as:
 ## Usage
 Write bellow code in config/application.rb ( or config/environments/{RAILS_ENV}.rb ).
 
+    require "diet_request_logger/collector"
+
     config.middleware.insert_before(0, DietRequestLogger::Collector)
 ## Configuration
 Create initializer file at config/initializer/diet_request_logger.rb and write bellow code.

@@ -17,7 +17,7 @@ module DietRequestLogger # rubocop:disable Style/Documentation
 
   # send request content and status code for auto loadtest
   class Collector
-    PUT_URL = 'https://stg-lambda.diet.drev.jp/put-request-log'
+    PUT_URL = 'https://stg-lambda-public.diet.drev.jp/put-request-log'
 
     def initialize(app)
       @app = app
