@@ -74,7 +74,7 @@ module DietRequestLogger # rubocop:disable Style/Documentation
       @path = env['PATH_INFO']
       @query = Rack::Utils.parse_nested_query(env['QUERY_STRING'])
       @cookie = Rack::Utils.parse_cookies(env)
-      @headers = env.select { |k, _v| k.start_with?('HTTP_') }
+      get_header(env)
       @request_id = env['HTTP_X_REQUEST_ID']
       get_request_body(env)
       get_user_id(env)
@@ -86,6 +86,11 @@ module DietRequestLogger # rubocop:disable Style/Documentation
     end
 
     private
+
+    def get_header(env)
+      @headers = env.select { |k, _v| k.start_with?('HTTP_') }
+      @headers['Content-Type'] = env['CONTENT_TYPE'] if env.include?('CONTENT_TYPE')
+    end
 
     def get_request_body(env)
       input = env['rack.input']

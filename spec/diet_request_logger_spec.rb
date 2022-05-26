@@ -132,7 +132,7 @@ RSpec.describe DietRequestLogger do
     env = Rack::MockRequest.env_for(
       path,
       'REQUEST_METHOD' => 'POST',
-      'HTTP_CONTENT_TYPE' => 'application/json',
+      'CONTENT_TYPE' => 'application/json',
       'rack.input' => StringIO.new(json_str)
     )
 
@@ -142,6 +142,7 @@ RSpec.describe DietRequestLogger do
     expect(collector.instance_variable_get('@path')).to eq path
     expect(collector.instance_variable_get('@body')).to eq json_str
     expect(collector.instance_variable_get('@user_id')).to eq user_id
+    expect(collector.instance_variable_get('@headers')).to include 'Content-Type' => 'application/json'
 
     DietRequestLogger.configuration.user_key = nil
   end
