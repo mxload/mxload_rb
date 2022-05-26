@@ -90,6 +90,14 @@ module DietRequestLogger # rubocop:disable Style/Documentation
     def get_header(env)
       @headers = env.select { |k, _v| k.start_with?('HTTP_') }
       @headers['Content-Type'] = env['CONTENT_TYPE'] if env.include?('CONTENT_TYPE')
+      @headers.transform_keys! do |k|
+        case k
+        when 'HTTP_AUTHORIZATION'
+          'Authorization'
+        else
+          k
+        end
+      end
     end
 
     def get_request_body(env)

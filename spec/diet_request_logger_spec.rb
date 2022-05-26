@@ -133,6 +133,7 @@ RSpec.describe DietRequestLogger do
       path,
       'REQUEST_METHOD' => 'POST',
       'CONTENT_TYPE' => 'application/json',
+      'HTTP_AUTHORIZATION' => 'auth',
       'rack.input' => StringIO.new(json_str)
     )
 
@@ -142,7 +143,10 @@ RSpec.describe DietRequestLogger do
     expect(collector.instance_variable_get('@path')).to eq path
     expect(collector.instance_variable_get('@body')).to eq json_str
     expect(collector.instance_variable_get('@user_id')).to eq user_id
-    expect(collector.instance_variable_get('@headers')).to include 'Content-Type' => 'application/json'
+    expect(collector.instance_variable_get('@headers')).to include(
+      'Content-Type' => 'application/json',
+      'Authorization' => 'auth'
+    )
 
     DietRequestLogger.configuration.user_key = nil
   end
