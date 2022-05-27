@@ -91,11 +91,12 @@ module DietRequestLogger # rubocop:disable Style/Documentation
     private
 
     def get_header(env)
-      @http_hash = {}
-      @cgi_hash = {}
+      @http_header_hash = {}
+      @cgi_header_hash = {}
       create_header_mapping_hash
-      @headers = env.select { |k, _v| k.start_with?('HTTP_') || @cgi_hash.keys.include?(k) }
-      @headers.transform_keys!(@cgi_hash.merge(@http_hash))
+      @headers = env.select { |k, _v| k.start_with?('HTTP_') || @cgi_header_hash.keys.include?(k) }
+      header_convert_hash = @http_header_hash.merge(@cgi_header_hash)
+      @headers.transform_keys! { |k| header_convert_hash.include?(k) ? header_convert_hash[k] : k }
     end
 
     def create_header_mapping_hash
@@ -105,9 +106,9 @@ module DietRequestLogger # rubocop:disable Style/Documentation
         name = elem.upcase
         name.tr!('-', '_')
         if ActionDispatch::Http::Headers::CGI_VARIABLES.include?(name)
-          @cgi_hash[name] = elem
+          @cgi_header_hash[name] = elem
         else
-          @http_hash[name.prepend('HTTP_')] = elem
+          @http_header_hash[name.prepend('HTTP_')] = elem
         end
       end
     end
