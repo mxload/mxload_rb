@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    diet_request_logger (0.1.1)
+    diet_request_logger (0.1.2)
+      actionpack
       activesupport
       gem_config
       rack

@@ -29,6 +29,7 @@ Create initializer file at config/initializer/diet_request_logger.rb and write b
         config.enable = true
         config.project_id = 1
         config.user_key = 'user'
+        config.custom_header = %w[Content-Type]
     end
 
 - enable
@@ -37,6 +38,8 @@ Create initializer file at config/initializer/diet_request_logger.rb and write b
     - used for identifying loadtest target app
 - user_key
     - used for finding parameter identifying request user
+- cunstom_header (optional)
+    - used for logging header contents
 
 ## Development
 

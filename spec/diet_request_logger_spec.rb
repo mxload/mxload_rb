@@ -26,6 +26,8 @@ RSpec.describe DietRequestLogger do
     DietRequestLogger::Collector.new(Rails.application)
   end
 
+  DietRequestLogger.configuration.custom_header = %w[Content-Type Authorization]
+
   it 'disable send log' do
     DietRequestLogger.configuration.enable = false
     DietRequestLogger.configuration.user_key = 'user_id'
