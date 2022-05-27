@@ -3,6 +3,7 @@
 require 'uri'
 require 'net/http'
 require 'active_support/all'
+require 'action_dispatch/http/headers'
 
 require 'gem_config'
 
@@ -13,6 +14,7 @@ module DietRequestLogger # rubocop:disable Style/Documentation
     has :enable, default: false
     has :project_id, default: nil
     has :user_key, default: nil
+    has :custom_header, default: []
   end
 
   # send request content and status code for auto loadtest
@@ -24,6 +26,7 @@ module DietRequestLogger # rubocop:disable Style/Documentation
       @enable = DietRequestLogger.configuration.enable
       @project_id = DietRequestLogger.configuration.project_id
       @user_key = DietRequestLogger.configuration.user_key
+      @custom_header = DietRequestLogger.configuration.custom_header
     end
 
     def call(env)
@@ -74,7 +77,7 @@ module DietRequestLogger # rubocop:disable Style/Documentation
       @path = env['PATH_INFO']
       @query = Rack::Utils.parse_nested_query(env['QUERY_STRING'])
       @cookie = Rack::Utils.parse_cookies(env)
-      @headers = env.select { |k, _v| k.start_with?('HTTP_') }
+      get_header(env)
       @request_id = env['HTTP_X_REQUEST_ID']
       get_request_body(env)
       get_user_id(env)
@@ -86,6 +89,29 @@ module DietRequestLogger # rubocop:disable Style/Documentation
     end
 
     private
+
+    def get_header(env)
+      @http_header_hash = {}
+      @cgi_header_hash = {}
+      create_header_mapping_hash
+      @headers = env.select { |k, _v| k.start_with?('HTTP_') || @cgi_header_hash.keys.include?(k) }
+      header_convert_hash = @http_header_hash.merge(@cgi_header_hash)
+      @headers.transform_keys! { |k| header_convert_hash.include?(k) ? header_convert_hash[k] : k }
+    end
+
+    def create_header_mapping_hash
+      @custom_header.each do |elem|
+        next unless ActionDispatch::Http::Headers::HTTP_HEADER.match?(elem)
+
+        name = elem.upcase
+        name.tr!('-', '_')
+        if ActionDispatch::Http::Headers::CGI_VARIABLES.include?(name)
+          @cgi_header_hash[name] = elem
+        else
+          @http_header_hash[name.prepend('HTTP_')] = elem
+        end
+      end
+    end
 
     def get_request_body(env)
       input = env['rack.input']
