@@ -15,6 +15,7 @@ module DietRequestLogger # rubocop:disable Style/Documentation
     has :project_id, default: nil
     has :user_key, default: nil
     has :custom_header, default: []
+    has :ignore_paths, default: []
   end
 
   # send request content and status code for auto loadtest
@@ -27,6 +28,7 @@ module DietRequestLogger # rubocop:disable Style/Documentation
       @project_id = DietRequestLogger.configuration.project_id
       @user_key = DietRequestLogger.configuration.user_key
       @custom_header = DietRequestLogger.configuration.custom_header
+      @ignore_paths = DietRequestLogger.configuration.ignore_paths
     end
 
     def call(env)
@@ -34,9 +36,10 @@ module DietRequestLogger # rubocop:disable Style/Documentation
     end
 
     def _call(env)
-      get_request_log(env) if @enable
+      get_request_path(env) if @enable
+      get_request_log(env) if @enable && enable_path?
       status, headers, body = @app.call(env)
-      if @enable
+      if @enable && enable_path?
         get_response_log(status, headers, body)
         send_log
       end
@@ -71,10 +74,13 @@ module DietRequestLogger # rubocop:disable Style/Documentation
     end
     # rubocop:enable Metrics/MethodLength
 
+    def get_request_path(env)
+      @path = env['PATH_INFO']
+    end
+
     def get_request_log(env)
       @time_stamp = Time.current.to_i
       @method = env['REQUEST_METHOD']
-      @path = env['PATH_INFO']
       @query = Rack::Utils.parse_nested_query(env['QUERY_STRING'])
       @cookie = Rack::Utils.parse_cookies(env)
       get_header(env)
@@ -89,6 +95,18 @@ module DietRequestLogger # rubocop:disable Style/Documentation
     end
 
     private
+
+    def enable_path?
+      return false if @path.nil?
+      return @enable_path unless @enable_path.nil?
+
+      if @ignore_paths.size <= 0
+        @enable_path = true
+        return @enable_path
+      end
+
+      @enable_path = !@ignore_paths.include?(@path)
+    end
 
     def get_header(env)
       @http_header_hash = {}
