@@ -164,5 +164,29 @@ RSpec.describe DietRequestLogger do
     expect(collector.instance_variable_get('@request_id')).to eq uuid
     expect(collector.instance_variable_get('@status')).to eq status
   end
+
+  it 'ignore setting path' do
+    DietRequestLogger.configuration.ignore_paths = ['health']
+
+    WebMock.enable!
+    stub_request(:any, DietRequestLogger::Collector::PUT_URL)
+      .to_return(body: 'mock', status: 200, headers: {})
+
+    path = '/health'
+    uuid = SecureRandom.uuid
+
+    collector = app
+    env = Rack::MockRequest.env_for(
+      path,
+      'HTTP_X_REQUEST_ID' => uuid
+    )
+
+    collector._call(env)
+
+    expect(collector.instance_variable_get('@request_id')).to eq nil
+    expect(collector.instance_variable_get('@status')).to eq nil
+
+    DietRequestLogger.configuration.ignore_paths = []
+  end
 end
 # rubocop:enable Metrics/BlockLength
