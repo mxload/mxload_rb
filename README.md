@@ -30,6 +30,7 @@ Create initializer file at config/initializer/diet_request_logger.rb and write b
         config.project_id = 1
         config.user_key = 'user'
         config.custom_header = %w[Content-Type]
+        config.ignore_paths = %w[/health]
     end
 
 - enable
@@ -40,6 +41,8 @@ Create initializer file at config/initializer/diet_request_logger.rb and write b
     - used for finding parameter identifying request user
 - cunstom_header (optional)
     - used for logging header contents
+- ignore_paths (optional)
+    - ignore sending request log when request path is in ignore_paths 
 
 ## Development
 
