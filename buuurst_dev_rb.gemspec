@@ -34,7 +34,6 @@ Gem::Specification.new do |spec|
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 
-  spec.metadata['allowed_push_host'] = 'http://gem.drecom.co.jp' if spec.respond_to?(:metadata)
   spec.metadata['rubygems_mfa_required'] = 'true'
 
   spec.add_dependency 'actionpack'
