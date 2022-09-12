@@ -20,7 +20,11 @@ module BuuurstDev # rubocop:disable Style/Documentation
 
   # send request content and status code for auto loadtest
   class Collector
-    PUT_URL = 'https://lambda-public.buuurst.dev/put-request-log'
+    PUT_URL = if (`git rev-parse --abbrev-ref HEAD`).include?('main')
+                'https://lambda-public.buuurst.dev/put-request-log'
+              else
+                'https://stg-lambda-public.diet.drev.jp/put-request-log'
+              end
 
     def initialize(app)
       @app = app
