@@ -7,7 +7,7 @@ require 'action_dispatch/http/headers'
 
 require 'gem_config'
 
-module DietRequestLogger # rubocop:disable Style/Documentation
+module BuuurstDevRb # rubocop:disable Style/Documentation
   include GemConfig::Base
 
   with_configuration do
@@ -24,11 +24,11 @@ module DietRequestLogger # rubocop:disable Style/Documentation
 
     def initialize(app)
       @app = app
-      @enable = DietRequestLogger.configuration.enable
-      @project_id = DietRequestLogger.configuration.project_id
-      @user_key = DietRequestLogger.configuration.user_key
-      @custom_header = DietRequestLogger.configuration.custom_header
-      @ignore_paths = DietRequestLogger.configuration.ignore_paths
+      @enable = BuuurstDevRb.configuration.enable
+      @project_id = BuuurstDevRb.configuration.project_id
+      @user_key = BuuurstDevRb.configuration.user_key
+      @custom_header = BuuurstDevRb.configuration.custom_header
+      @ignore_paths = BuuurstDevRb.configuration.ignore_paths
     end
 
     def call(env)

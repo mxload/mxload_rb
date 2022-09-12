@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'diet_request_logger'
+require 'buuurst_dev_rb'
 
 ENV['RAILS_ENV'] ||= 'test'
 

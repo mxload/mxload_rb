@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require_relative 'lib/diet_request_logger/version'
+require_relative 'lib/buuurst_dev_rb/version'
 
 Gem::Specification.new do |spec|
-  spec.name = 'diet_request_logger'
-  spec.version = DietRequestLogger::VERSION
+  spec.name = 'buuurst_dev_rb'
+  spec.version = BuuurstDevRb::VERSION
   spec.authors = ['kiichi.koyasu']
   spec.email = ['kiichi.koyasu@drecom.co.jp']
 
   spec.summary = 'Collecting request log for auto loadtest.'
-  spec.description = 'For auto loadtest, collect request data, uri, header, body, etc.'
-  spec.homepage = 'https://git.drecom.jp/diet/diet_request_logger'
+  spec.description = 'For buuurst.dev, collect request data, uri, header, body, etc.'
+  spec.homepage = 'https://git.drecom.jp/diet/buuurst_dev_rb'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 2.6.0'
 

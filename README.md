@@ -1,11 +1,11 @@
-# DietRequestLogger
+# BuuurstDevRb
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'diet_request_logger'
+gem 'buuurst_dev_rb'
 ```
 
 And then execute:
@@ -14,18 +14,18 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install diet_request_logger
+    $ gem install buuurst_dev_rb
 
 ## Usage
 Write bellow code in config/application.rb ( or config/environments/{RAILS_ENV}.rb ).
 
-    require "diet_request_logger/collector"
+    require "buuurst_dev_rb/collector"
 
-    config.middleware.insert_before(0, DietRequestLogger::Collector)
+    config.middleware.insert_before(0, BuuurstDevRb::Collector)
 ## Configuration
-Create initializer file at config/initializer/diet_request_logger.rb and write bellow code.
+Create initializer file at config/initializer/buuurst_dev_rb.rb and write bellow code.
 
-    DietRequestLogger.configure do |config|
+    BuuurstDevRb.configure do |config|
         config.enable = true
         config.project_id = 1
         config.user_key = 'user'
@@ -52,7 +52,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/diet_request_logger.
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/buuurst_dev_rb.
 
 ## License
 

@@ -10,27 +10,27 @@ require 'rack/test'
 require 'webmock/rspec'
 
 require 'test_application'
-require 'diet_request_logger/collector'
+require 'buuurst_dev_rb/collector'
 require 'config/routes'
 
 # rubocop:disable Metrics/BlockLength
-RSpec.describe DietRequestLogger do
+RSpec.describe BuuurstDevRb do
   it 'has a version number' do
-    expect(DietRequestLogger::VERSION).not_to be nil
+    expect(BuuurstDevRb::VERSION).not_to be nil
   end
 
   include Rack::Test::Methods
   include TestApplication
 
   def app
-    DietRequestLogger::Collector.new(Rails.application)
+    BuuurstDevRb::Collector.new(Rails.application)
   end
 
-  DietRequestLogger.configuration.custom_header = %w[Content-Type Authorization]
+  BuuurstDevRb.configuration.custom_header = %w[Content-Type Authorization]
 
   it 'disable send log' do
-    DietRequestLogger.configuration.enable = false
-    DietRequestLogger.configuration.user_key = 'user_id'
+    BuuurstDevRb.configuration.enable = false
+    BuuurstDevRb.configuration.user_key = 'user_id'
 
     path = '/api/get'
     uuid = SecureRandom.uuid
@@ -47,13 +47,13 @@ RSpec.describe DietRequestLogger do
     expect(collector.instance_variable_get('@path')).to eq nil
     expect(collector.instance_variable_get('@request_id')).to eq nil
 
-    DietRequestLogger.configuration.enable = true
-    DietRequestLogger.configuration.user_key = nil
+    BuuurstDevRb.configuration.enable = true
+    BuuurstDevRb.configuration.user_key = nil
   end
 
   it 'not change get request contents' do
     WebMock.enable!
-    stub_request(:any, DietRequestLogger::Collector::PUT_URL)
+    stub_request(:any, BuuurstDevRb::Collector::PUT_URL)
       .to_return(body: 'mock', status: 200, headers: {})
 
     path = '/api/get'
@@ -76,7 +76,7 @@ RSpec.describe DietRequestLogger do
 
   it 'not change post request contents' do
     WebMock.enable!
-    stub_request(:any, DietRequestLogger::Collector::PUT_URL)
+    stub_request(:any, BuuurstDevRb::Collector::PUT_URL)
       .to_return(body: 'mock', status: 200, headers: {})
 
     path = '/api/post'
@@ -93,7 +93,7 @@ RSpec.describe DietRequestLogger do
   end
 
   it 'get request log at GET' do
-    DietRequestLogger.configuration.user_key = 'USER_DATA'
+    BuuurstDevRb.configuration.user_key = 'USER_DATA'
 
     path = '/api/get'
     query = 'key1=value1&key2=value2'
@@ -122,11 +122,11 @@ RSpec.describe DietRequestLogger do
     expect(collector.instance_variable_get('@request_id')).to eq uuid
     expect(collector.instance_variable_get('@user_id')).to eq user_id
 
-    DietRequestLogger.configuration.user_key = nil
+    BuuurstDevRb.configuration.user_key = nil
   end
 
   it 'get request log at POST' do
-    DietRequestLogger.configuration.user_key = 'user_id'
+    BuuurstDevRb.configuration.user_key = 'user_id'
     path = '/api/post'
     user_id = 'user-id'
     json_str = JSON.generate(key: [{ user_id: user_id }])
@@ -152,7 +152,7 @@ RSpec.describe DietRequestLogger do
       'Authorization' => 'auth'
     )
 
-    DietRequestLogger.configuration.user_key = nil
+    BuuurstDevRb.configuration.user_key = nil
   end
 
   it 'get response log' do
@@ -168,10 +168,10 @@ RSpec.describe DietRequestLogger do
   end
 
   it 'ignore setting path' do
-    DietRequestLogger.configuration.ignore_paths = %w[/health]
+    BuuurstDevRb.configuration.ignore_paths = %w[/health]
 
     WebMock.enable!
-    stub_request(:any, DietRequestLogger::Collector::PUT_URL)
+    stub_request(:any, BuuurstDevRb::Collector::PUT_URL)
       .to_return(body: 'mock', status: 200, headers: {})
 
     path = '/health'
@@ -184,7 +184,7 @@ RSpec.describe DietRequestLogger do
     expect(collector.instance_variable_get('@request_id')).to eq nil
     expect(collector.instance_variable_get('@status')).to eq nil
 
-    DietRequestLogger.configuration.ignore_paths = []
+    BuuurstDevRb.configuration.ignore_paths = []
   end
 end
 # rubocop:enable Metrics/BlockLength
