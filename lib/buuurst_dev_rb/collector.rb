@@ -20,7 +20,7 @@ module BuuurstDevRb # rubocop:disable Style/Documentation
 
   # send request content and status code for auto loadtest
   class Collector
-    PUT_URL = 'https://stg-lambda-public.diet.drev.jp/put-request-log'
+    PUT_URL = 'https://lambda-public.buuurst.dev/put-request-log'
 
     def initialize(app)
       @app = app
