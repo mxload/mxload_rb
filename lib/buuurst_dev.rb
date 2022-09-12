@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative 'buuurst_dev_rb/version'
+require_relative 'buuurst_dev/version'
 
-module BuuurstDevRb
+module BuuurstDev
   class Error < StandardError; end
   # Your code goes here...
 end

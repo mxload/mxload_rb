@@ -1,11 +1,11 @@
-# BuuurstDevRb
+# BuuurstDev
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'buuurst_dev_rb'
+gem 'buuurst_dev'
 ```
 
 And then execute:
@@ -14,18 +14,18 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install buuurst_dev_rb
+    $ gem install buuurst_dev
 
 ## Usage
 Write bellow code in config/application.rb ( or config/environments/{RAILS_ENV}.rb ).
 
-    require "buuurst_dev_rb/collector"
+    require "buuurst_dev/collector"
 
-    config.middleware.insert_before(0, BuuurstDevRb::Collector)
+    config.middleware.insert_before(0, BuuurstDev::Collector)
 ## Configuration
-Create initializer file at config/initializer/buuurst_dev_rb.rb and write bellow code.
+Create initializer file at config/initializer/buuurst_dev.rb and write bellow code.
 
-    BuuurstDevRb.configure do |config|
+    BuuurstDev.configure do |config|
         config.enable = true
         config.project_id = 1
         config.user_key = 'user'
@@ -47,7 +47,7 @@ Create initializer file at config/initializer/buuurst_dev_rb.rb and write bellow
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/drecom/buuurst_dev_rb.
+Bug reports and pull requests are welcome on GitHub at https://github.com/drecom/buuurst_dev.
 
 ## License
 

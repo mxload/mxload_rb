@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'buuurst_dev_rb'
+require 'buuurst_dev'
 
 ENV['RAILS_ENV'] ||= 'test'
 

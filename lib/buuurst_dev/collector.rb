@@ -7,7 +7,7 @@ require 'action_dispatch/http/headers'
 
 require 'gem_config'
 
-module BuuurstDevRb # rubocop:disable Style/Documentation
+module BuuurstDev # rubocop:disable Style/Documentation
   include GemConfig::Base
 
   with_configuration do
@@ -24,11 +24,11 @@ module BuuurstDevRb # rubocop:disable Style/Documentation
 
     def initialize(app)
       @app = app
-      @enable = BuuurstDevRb.configuration.enable
-      @project_id = BuuurstDevRb.configuration.project_id
-      @user_key = BuuurstDevRb.configuration.user_key
-      @custom_header = BuuurstDevRb.configuration.custom_header
-      @ignore_paths = BuuurstDevRb.configuration.ignore_paths
+      @enable = BuuurstDev.configuration.enable
+      @project_id = BuuurstDev.configuration.project_id
+      @user_key = BuuurstDev.configuration.user_key
+      @custom_header = BuuurstDev.configuration.custom_header
+      @ignore_paths = BuuurstDev.configuration.ignore_paths
     end
 
     def call(env)
