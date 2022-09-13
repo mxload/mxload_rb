@@ -6,6 +6,7 @@ require 'active_support/all'
 require 'action_dispatch/http/headers'
 
 require 'gem_config'
+require 'dotenv/load'
 
 module BuuurstDev # rubocop:disable Style/Documentation
   include GemConfig::Base
@@ -20,11 +21,7 @@ module BuuurstDev # rubocop:disable Style/Documentation
 
   # send request content and status code for auto loadtest
   class Collector
-    PUT_URL = if (`git rev-parse --abbrev-ref HEAD`).include?('main')
-                'https://lambda-public.buuurst.dev/put-request-log'
-              else
-                'https://stg-lambda-public.diet.drev.jp/put-request-log'
-              end
+    PUT_URL = ENV['PUT_URL'] || 'https://lambda-public.buuurst.dev/put-request-log'
 
     def initialize(app)
       @app = app

@@ -262,6 +262,7 @@ PLATFORMS
 DEPENDENCIES
   bundler
   buuurst_dev!
+  dotenv
   drecom_gem!
   mysql2
   psych (< 4.0.0)
