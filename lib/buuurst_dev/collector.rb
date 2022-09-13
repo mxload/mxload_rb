@@ -7,7 +7,7 @@ require 'action_dispatch/http/headers'
 
 require 'gem_config'
 
-module DietRequestLogger # rubocop:disable Style/Documentation
+module BuuurstDev # rubocop:disable Style/Documentation
   include GemConfig::Base
 
   with_configuration do
@@ -20,15 +20,15 @@ module DietRequestLogger # rubocop:disable Style/Documentation
 
   # send request content and status code for auto loadtest
   class Collector
-    PUT_URL = 'https://stg-lambda-public.diet.drev.jp/put-request-log'
+    PUT_URL = 'https://lambda-public.buuurst.dev/put-request-log'
 
     def initialize(app)
       @app = app
-      @enable = DietRequestLogger.configuration.enable
-      @project_id = DietRequestLogger.configuration.project_id
-      @user_key = DietRequestLogger.configuration.user_key
-      @custom_header = DietRequestLogger.configuration.custom_header
-      @ignore_paths = DietRequestLogger.configuration.ignore_paths
+      @enable = BuuurstDev.configuration.enable
+      @project_id = BuuurstDev.configuration.project_id
+      @user_key = BuuurstDev.configuration.user_key
+      @custom_header = BuuurstDev.configuration.custom_header
+      @ignore_paths = BuuurstDev.configuration.ignore_paths
     end
 
     def call(env)

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative 'diet_request_logger/version'
+require_relative 'buuurst_dev/version'
 
-module DietRequestLogger
+module BuuurstDev
   class Error < StandardError; end
   # Your code goes here...
 end

@@ -1,11 +1,11 @@
-# DietRequestLogger
+# BuuurstDev
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'diet_request_logger'
+gem 'buuurst_dev', github: 'drecom/buuurst_dev_rb' 
 ```
 
 And then execute:
@@ -14,18 +14,18 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install diet_request_logger
+    $ gem install buuurst_dev
 
 ## Usage
 Write bellow code in config/application.rb ( or config/environments/{RAILS_ENV}.rb ).
 
-    require "diet_request_logger/collector"
+    require "buuurst_dev/collector"
 
-    config.middleware.insert_before(0, DietRequestLogger::Collector)
+    config.middleware.insert_before(0, BuuurstDev::Collector)
 ## Configuration
-Create initializer file at config/initializer/diet_request_logger.rb and write bellow code.
+Create initializer file at config/initializer/buuurst_dev.rb and write bellow code.
 
-    DietRequestLogger.configure do |config|
+    BuuurstDev.configure do |config|
         config.enable = true
         config.project_id = 1
         config.user_key = 'user'
@@ -44,15 +44,10 @@ Create initializer file at config/initializer/diet_request_logger.rb and write b
 - ignore_paths (optional)
     - ignore sending request log when request path is in ignore_paths 
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/diet_request_logger.
+Bug reports and pull requests are welcome on GitHub at https://github.com/drecom/buuurst_dev.
 
 ## License
 

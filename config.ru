@@ -2,7 +2,7 @@
 
 require 'active_support/all'
 
-require_relative 'lib/diet_request_logger/collector'
+require_relative 'lib/buuurst_dev/collector'
 
 # rack app for on local
 class App
@@ -12,5 +12,5 @@ class App
 end
 
 Time.zone = 'Asia/Tokyo'
-use DietRequestLogger::Collector
+use BuuurstDev::Collector
 run App.new

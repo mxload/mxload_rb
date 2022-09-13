@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require_relative 'lib/diet_request_logger/version'
+require_relative 'lib/buuurst_dev/version'
 
 Gem::Specification.new do |spec|
-  spec.name = 'diet_request_logger'
-  spec.version = DietRequestLogger::VERSION
+  spec.name = 'buuurst_dev'
+  spec.version = BuuurstDev::VERSION
   spec.authors = ['kiichi.koyasu']
   spec.email = ['kiichi.koyasu@drecom.co.jp']
 
   spec.summary = 'Collecting request log for auto loadtest.'
-  spec.description = 'For auto loadtest, collect request data, uri, header, body, etc.'
-  spec.homepage = 'https://git.drecom.jp/diet/diet_request_logger'
+  spec.description = 'For buuurst.dev, collect request data, uri, header, body, etc.'
+  spec.homepage = 'https://github.com/drecom/buuurst_dev'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 2.6.0'
 
@@ -34,7 +34,6 @@ Gem::Specification.new do |spec|
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 
-  spec.metadata['allowed_push_host'] = 'http://gem.drecom.co.jp' if spec.respond_to?(:metadata)
   spec.metadata['rubygems_mfa_required'] = 'true'
 
   spec.add_dependency 'actionpack'
