@@ -5,7 +5,7 @@
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'buuurst_dev'
+gem 'buuurst_dev', github: 'drecom/buuurst_dev_rb' 
 ```
 
 And then execute:
