@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = 'Collecting request log for auto loadtest.'
   spec.description = 'For buuurst.dev, collect request data, uri, header, body, etc.'
-  spec.homepage = 'https://github.com/drecom/buuurst_dev'
+  spec.homepage = 'https://github.com/drecom/buuurst_dev_rb'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 2.6.0'
 
@@ -42,10 +42,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rack'
 
   spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'drecom_gem'
   spec.add_development_dependency 'mysql2'
   spec.add_development_dependency 'psych', '< 4.0.0'
-  spec.add_development_dependency 'puma'
   spec.add_development_dependency 'rack-test'
   spec.add_development_dependency 'rails'
   spec.add_development_dependency 'rake'

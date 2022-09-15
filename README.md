@@ -28,7 +28,7 @@ Create initializer file at config/initializer/buuurst_dev.rb and write bellow co
     BuuurstDev.configure do |config|
         config.enable = true
         config.project_id = 1
-        config.user_key = 'user'
+        config.service_key = 'servicekey'
         config.custom_header = %w[Content-Type]
         config.ignore_paths = %w[/health]
     end
@@ -37,8 +37,8 @@ Create initializer file at config/initializer/buuurst_dev.rb and write bellow co
     - used for switching enabled/disabled of this gem
 - project_id
     - used for identifying loadtest target app
-- user_key
-    - used for finding parameter identifying request user
+- service_key
+    - used for identifying request user, get at [account info page in BUUURST.DEV BETA](https://buuurst.dev/accounts) 
 - cunstom_header (optional)
     - used for logging header contents
 - ignore_paths (optional)
@@ -47,7 +47,7 @@ Create initializer file at config/initializer/buuurst_dev.rb and write bellow co
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/drecom/buuurst_dev.
+Bug reports and pull requests are welcome on GitHub at https://github.com/drecom/buuurst_dev_rb.
 
 ## License
 

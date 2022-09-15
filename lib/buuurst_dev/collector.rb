@@ -13,7 +13,7 @@ module BuuurstDev # rubocop:disable Style/Documentation
   with_configuration do
     has :enable, default: false
     has :project_id, default: nil
-    has :user_key, default: nil
+    has :service_key, default: nil
     has :custom_header, default: []
     has :ignore_paths, default: []
   end
@@ -26,7 +26,7 @@ module BuuurstDev # rubocop:disable Style/Documentation
       @app = app
       @enable = BuuurstDev.configuration.enable
       @project_id = BuuurstDev.configuration.project_id
-      @user_key = BuuurstDev.configuration.user_key
+      @service_key = BuuurstDev.configuration.service_key
       @custom_header = BuuurstDev.configuration.custom_header
       @ignore_paths = BuuurstDev.configuration.ignore_paths
     end
@@ -68,7 +68,7 @@ module BuuurstDev # rubocop:disable Style/Documentation
         request_id: @request_id,
         status: @status,
         header: @headers,
-        user_key: @user_id,
+        service_key: @service_key,
         body: @body
       }.to_json
     end
@@ -86,7 +86,6 @@ module BuuurstDev # rubocop:disable Style/Documentation
       get_header(env)
       @request_id = env['HTTP_X_REQUEST_ID']
       get_request_body(env)
-      get_user_id(env)
     end
 
     def get_response_log(status, headers, _body)
@@ -135,35 +134,6 @@ module BuuurstDev # rubocop:disable Style/Documentation
       input = env['rack.input']
       @body = input.gets
       input.rewind
-    end
-
-    def get_user_id(env)
-      @user_id = env["HTTP_#{@user_key}"] || (@body && find_value_recursive(@user_key, JSON.parse(@body)))
-    end
-
-    def find_value_recursive(key, object)
-      case object
-      when Hash
-        find_value_recursive_hash(key, object)
-      when Array
-        find_value_recursive_array(key, object)
-      end
-    end
-
-    def find_value_recursive_hash(key, hash)
-      return hash[key] if hash.key?(key)
-
-      hash.each do |_k, v|
-        res = find_value_recursive(key, v)
-        break res if res
-      end
-    end
-
-    def find_value_recursive_array(key, array)
-      array.each do |v|
-        res = find_value_recursive(key, v)
-        break res if res
-      end
     end
   end
 end
