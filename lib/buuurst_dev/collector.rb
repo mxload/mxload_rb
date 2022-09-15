@@ -68,7 +68,7 @@ module BuuurstDev # rubocop:disable Style/Documentation
         request_id: @request_id,
         status: @status,
         header: @headers,
-        user_key: @service_key,
+        service_key: @service_key,
         body: @body
       }.to_json
     end
