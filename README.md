@@ -28,7 +28,7 @@ Create initializer file at config/initializer/buuurst_dev.rb and write bellow co
     BuuurstDev.configure do |config|
         config.enable = true
         config.project_id = 1
-        config.user_key = 'user'
+        config.service_key = 'servicekey'
         config.custom_header = %w[Content-Type]
         config.ignore_paths = %w[/health]
     end

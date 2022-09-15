@@ -102,7 +102,7 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.15.0)
-    mysql2 (0.5.3)
+    mysql2 (0.5.4)
     net-imap (0.2.3)
       digest
       net-protocol
@@ -126,8 +126,6 @@ GEM
       ast (~> 2.4.1)
     psych (3.3.2)
     public_suffix (4.0.6)
-    puma (5.5.2)
-      nio4r (~> 2.0)
     racc (1.6.0)
     rack (2.2.3)
     rack-test (1.1.0)
@@ -210,7 +208,6 @@ DEPENDENCIES
   buuurst_dev!
   mysql2
   psych (< 4.0.0)
-  puma
   rack-test
   rails
   rake (~> 13.0)
