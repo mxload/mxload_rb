@@ -37,8 +37,8 @@ Create initializer file at config/initializer/buuurst_dev.rb and write bellow co
     - used for switching enabled/disabled of this gem
 - project_id
     - used for identifying loadtest target app
-- user_key
-    - used for finding parameter identifying request user
+- service_key
+    - used for identifying request user, get at [account info page in BUUURST.DEV BETA](https://buuurst.dev/accounts) 
 - cunstom_header (optional)
     - used for logging header contents
 - ignore_paths (optional)

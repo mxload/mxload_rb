@@ -30,7 +30,7 @@ RSpec.describe BuuurstDev do
 
   it 'disable send log' do
     BuuurstDev.configuration.enable = false
-    BuuurstDev.configuration.user_key = 'user_id'
+    BuuurstDev.configuration.service_key = 'service_key'
 
     path = '/api/get'
     uuid = SecureRandom.uuid
@@ -48,7 +48,7 @@ RSpec.describe BuuurstDev do
     expect(collector.instance_variable_get('@request_id')).to eq nil
 
     BuuurstDev.configuration.enable = true
-    BuuurstDev.configuration.user_key = nil
+    BuuurstDev.configuration.service_key = nil
   end
 
   it 'not change get request contents' do
@@ -93,22 +93,20 @@ RSpec.describe BuuurstDev do
   end
 
   it 'get request log at GET' do
-    BuuurstDev.configuration.user_key = 'USER_DATA'
+    BuuurstDev.configuration.service_key = 'service_key'
 
     path = '/api/get'
     query = 'key1=value1&key2=value2'
     user_agent = 'test-agent'
     cookie = 'key=value'
     uuid = SecureRandom.uuid
-    user_id = 'user-id'
 
     collector = app
     env = Rack::MockRequest.env_for(
       "#{path}?#{query}",
       'HTTP_USER_AGENT' => user_agent,
       'HTTP_COOKIE' => cookie,
-      'HTTP_X_REQUEST_ID' => uuid,
-      'HTTP_USER_DATA' => user_id
+      'HTTP_X_REQUEST_ID' => uuid
     )
 
     collector.get_request_path(env)
@@ -120,13 +118,12 @@ RSpec.describe BuuurstDev do
     expect(collector.instance_variable_get('@cookie')).to eq Rack::Utils.parse_cookies_header(cookie)
     expect(collector.instance_variable_get('@headers')['HTTP_USER_AGENT']).to eq user_agent
     expect(collector.instance_variable_get('@request_id')).to eq uuid
-    expect(collector.instance_variable_get('@user_id')).to eq user_id
 
-    BuuurstDev.configuration.user_key = nil
+    BuuurstDev.configuration.service_key = nil
   end
 
   it 'get request log at POST' do
-    BuuurstDev.configuration.user_key = 'user_id'
+    BuuurstDev.configuration.service_key = 'service_key'
     path = '/api/post'
     user_id = 'user-id'
     json_str = JSON.generate(key: [{ user_id: user_id }])
@@ -146,13 +143,12 @@ RSpec.describe BuuurstDev do
     expect(collector.instance_variable_get('@method')).to eq 'POST'
     expect(collector.instance_variable_get('@path')).to eq path
     expect(collector.instance_variable_get('@body')).to eq json_str
-    expect(collector.instance_variable_get('@user_id')).to eq user_id
     expect(collector.instance_variable_get('@headers')).to include(
       'Content-Type' => 'application/json',
       'Authorization' => 'auth'
     )
 
-    BuuurstDev.configuration.user_key = nil
+    BuuurstDev.configuration.service_key = nil
   end
 
   it 'get response log' do
