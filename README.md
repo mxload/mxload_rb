@@ -47,7 +47,7 @@ Create initializer file at config/initializer/buuurst_dev.rb and write bellow co
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/drecom/buuurst_dev.
+Bug reports and pull requests are welcome on GitHub at https://github.com/drecom/buuurst_dev_rb.
 
 ## License
 
