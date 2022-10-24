@@ -12,6 +12,7 @@ gem 'rspec', '~> 3.0'
 gem 'rubocop', '~> 1.21'
 
 gem 'rails', '7.0.4'
+
 gem 'activesupport', '7.0.4'
-gem 'actionview', '7.0.4'
 gem 'actionpack', '7.0.4'
+gem 'actionview', '7.0.4'
