@@ -118,7 +118,7 @@ GEM
     psych (3.3.2)
     public_suffix (4.0.6)
     racc (1.6.0)
-    rack (2.2.3)
+    rack (2.2.4)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (7.0.4)
@@ -201,8 +201,10 @@ DEPENDENCIES
   buuurst_dev!
   mysql2
   psych (< 4.0.0)
+  rack (>= 2.2.3.1)
   rack-test
   rails (= 7.0.4)
+  rails-html-sanitizer (>= 1.4.3)
   rake (~> 13.0)
   rspec (~> 3.0)
   rubocop (~> 1.21)

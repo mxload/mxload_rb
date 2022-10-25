@@ -16,3 +16,6 @@ gem 'rails', '7.0.4'
 gem 'actionpack', '7.0.4'
 gem 'actionview', '7.0.4'
 gem 'activesupport', '7.0.4'
+
+gem 'rack', '>= 2.2.3.1'
+gem 'rails-html-sanitizer', '>= 1.4.3'
