@@ -21,7 +21,6 @@ module BuuurstDev # rubocop:disable Style/Documentation
 
   # send request content and status code for auto loadtest
   class Collector
-
     def initialize(app)
       @app = app
       @enable = BuuurstDev.configuration.enable
