@@ -14,19 +14,20 @@ module BuuurstDev # rubocop:disable Style/Documentation
     has :enable, default: false
     has :project_id, default: nil
     has :service_key, default: nil
+    has :put_log_url, default: 'https://stg-lambda-public.diet.drev.jp/put-request-log'
     has :custom_header, default: []
     has :ignore_paths, default: []
   end
 
   # send request content and status code for auto loadtest
   class Collector
-    PUT_URL = 'https://lambda-public.buuurst.dev/put-request-log'
 
     def initialize(app)
       @app = app
       @enable = BuuurstDev.configuration.enable
       @project_id = BuuurstDev.configuration.project_id
       @service_key = BuuurstDev.configuration.service_key
+      @put_log_url = BuuurstDev.configuration.put_log_url
       @custom_header = BuuurstDev.configuration.custom_header
       @ignore_paths = BuuurstDev.configuration.ignore_paths
     end
@@ -47,7 +48,7 @@ module BuuurstDev # rubocop:disable Style/Documentation
     end
 
     def send_log
-      url = URI.parse(PUT_URL)
+      url = URI.parse(@put_log_url)
       req_header = { 'Content-Type': 'application/json' }
       param = create_param_json
 

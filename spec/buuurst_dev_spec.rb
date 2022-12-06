@@ -51,9 +51,21 @@ RSpec.describe BuuurstDev do
     BuuurstDev.configuration.service_key = nil
   end
 
+  it 'default put log url is defined' do
+    expect(app.instance_variable_get('@put_log_url')).to eq 'https://stg-lambda-public.diet.drev.jp/put-request-log'
+  end
+
+  it 'can change default put log url' do
+    BuuurstDev.configuration.put_log_url = 'http://localtesturl.local/put-request-log'
+
+    expect(app.instance_variable_get('@put_log_url')).to eq 'http://localtesturl.local/put-request-log'
+
+    BuuurstDev.configuration.put_log_url = 'https://stg-lambda-public.diet.drev.jp/put-request-log'
+  end
+
   it 'not change get request contents' do
     WebMock.enable!
-    stub_request(:any, BuuurstDev::Collector::PUT_URL)
+    stub_request(:any, app.instance_variable_get('@put_log_url'))
       .to_return(body: 'mock', status: 200, headers: {})
 
     path = '/api/get'
@@ -76,7 +88,7 @@ RSpec.describe BuuurstDev do
 
   it 'not change post request contents' do
     WebMock.enable!
-    stub_request(:any, BuuurstDev::Collector::PUT_URL)
+    stub_request(:any, app.instance_variable_get('@put_log_url'))
       .to_return(body: 'mock', status: 200, headers: {})
 
     path = '/api/post'
@@ -167,7 +179,7 @@ RSpec.describe BuuurstDev do
     BuuurstDev.configuration.ignore_paths = %w[/health]
 
     WebMock.enable!
-    stub_request(:any, BuuurstDev::Collector::PUT_URL)
+    stub_request(:any, app.instance_variable_get('@put_log_url'))
       .to_return(body: 'mock', status: 200, headers: {})
 
     path = '/health'
