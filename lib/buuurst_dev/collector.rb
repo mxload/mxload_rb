@@ -14,7 +14,7 @@ module BuuurstDev # rubocop:disable Style/Documentation
     has :enable, default: false
     has :project_id, default: nil
     has :service_key, default: nil
-    has :put_log_url, default: 'https://stg-lambda-public.diet.drev.jp/put-request-log'
+    has :put_log_url, default: 'https://lambda-public.buuurst.dev/put-request-log'
     has :custom_header, default: []
     has :ignore_paths, default: []
   end

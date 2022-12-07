@@ -52,7 +52,7 @@ RSpec.describe BuuurstDev do
   end
 
   it 'default put log url is defined' do
-    expect(app.instance_variable_get('@put_log_url')).to eq 'https://stg-lambda-public.diet.drev.jp/put-request-log'
+    expect(app.instance_variable_get('@put_log_url')).to eq 'https://lambda-public.buuurst.dev/put-request-log'
   end
 
   it 'can change default put log url' do
@@ -60,7 +60,7 @@ RSpec.describe BuuurstDev do
 
     expect(app.instance_variable_get('@put_log_url')).to eq 'http://localtesturl.local/put-request-log'
 
-    BuuurstDev.configuration.put_log_url = 'https://stg-lambda-public.diet.drev.jp/put-request-log'
+    BuuurstDev.configuration.put_log_url = 'https://lambda-public.buuurst.dev/put-request-log'
   end
 
   it 'not change get request contents' do
