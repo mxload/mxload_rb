@@ -5,7 +5,7 @@
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'buuurst_dev', github: 'drecom/buuurst_dev_rb' , tag: 'v0.1.3'
+gem 'buuurst_dev', github: 'drecom/buuurst_dev_rb' , tag: 'v0.1.4'
 ```
 
 And then execute:
@@ -15,7 +15,7 @@ And then execute:
 Or install it yourself as:
 
     $ gem install specific_install
-    $ gem specific_install -l https://github.com/drecom/buuurst_dev_rb.git -b v0.1.3 # use specific_install
+    $ gem specific_install -l https://github.com/drecom/buuurst_dev_rb.git -b v0.1.4 # use specific_install
 
 ## Usage
 Write bellow code in config/application.rb ( or config/environments/{RAILS_ENV}.rb ).
