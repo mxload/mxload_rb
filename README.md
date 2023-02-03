@@ -5,7 +5,7 @@
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'buuurst_dev', github: 'drecom/buuurst_dev_rb' , tag: 'v0.1.3'
+gem 'buuurst_dev', github: 'drecom/buuurst_dev_rb' , tag: 'v0.1.4'
 ```
 
 And then execute:
@@ -15,7 +15,7 @@ And then execute:
 Or install it yourself as:
 
     $ gem install specific_install
-    $ gem specific_install -l https://github.com/drecom/buuurst_dev_rb.git -b v0.1.3 # use specific_install
+    $ gem specific_install -l https://github.com/drecom/buuurst_dev_rb.git -b v0.1.4 # use specific_install
 
 ## Usage
 Write bellow code in config/application.rb ( or config/environments/{RAILS_ENV}.rb ).
@@ -30,6 +30,7 @@ Create initializer file at config/initializer/buuurst_dev.rb and write bellow co
         config.enable = true
         config.project_id = 1
         config.service_key = 'servicekey'
+        config.put_log_url = 'http://localtesturl.local/put-request-log'
         config.custom_header = %w[Content-Type]
         config.ignore_paths = %w[/health]
     end
@@ -40,6 +41,8 @@ Create initializer file at config/initializer/buuurst_dev.rb and write bellow co
     - used for identifying loadtest target app
 - service_key
     - used for identifying request user, get at [account info page in BUUURST.DEV BETA](https://buuurst.dev/accounts) 
+- put_log_url (optional)
+    - used for changing put log destination url
 - cunstom_header (optional)
     - used for logging header contents
 - ignore_paths (optional)
