@@ -28,39 +28,81 @@ RSpec.describe BuuurstDev do
 
   BuuurstDev.configuration.custom_header = %w[Content-Type Authorization]
 
-  it 'disable send log' do
-    BuuurstDev.configuration.enable = false
-    BuuurstDev.configuration.service_key = 'service_key'
+  describe 'configuration' do
+    context 'when send log is disabled' do
+      before do
+        BuuurstDev.configuration.enable = false
+        BuuurstDev.configuration.service_key = 'service_key'
+      end
 
-    path = '/api/get'
-    uuid = SecureRandom.uuid
+      after do
+        BuuurstDev.configuration.enable = true
+        BuuurstDev.configuration.service_key = nil
+      end
 
-    collector = app
-    env = Rack::MockRequest.env_for(
-      path,
-      'HTTP_X_REQUEST_ID' => uuid
-    )
+      it 'does not send log' do
+        path = '/api/get'
+        uuid = SecureRandom.uuid
 
-    collector._call(env)
+        collector = app
+        env = Rack::MockRequest.env_for(
+          path,
+          'HTTP_X_REQUEST_ID' => uuid
+        )
 
-    expect(collector.instance_variable_get('@method')).to eq nil
-    expect(collector.instance_variable_get('@path')).to eq nil
-    expect(collector.instance_variable_get('@request_id')).to eq nil
+        collector._call(env)
 
-    BuuurstDev.configuration.enable = true
-    BuuurstDev.configuration.service_key = nil
-  end
+        expect(collector.instance_variable_get('@method')).to eq nil
+        expect(collector.instance_variable_get('@path')).to eq nil
+        expect(collector.instance_variable_get('@request_id')).to eq nil
+      end
+    end
 
-  it 'default put log url is defined' do
-    expect(app.instance_variable_get('@put_log_url')).to eq 'https://lambda-public.buuurst.dev/put-request-log'
-  end
+    context 'when default put log url is defined' do
+      it 'retun default put log url' do
+        expect(app.instance_variable_get('@put_log_url')).to eq 'https://lambda-public.buuurst.dev/put-request-log'
+      end
+    end
 
-  it 'can change default put log url' do
-    BuuurstDev.configuration.put_log_url = 'http://localtesturl.local/put-request-log'
+    context 'when put log url is changed' do
+      before do
+        BuuurstDev.configuration.put_log_url = 'http://localtesturl.local/put-request-log'
+      end
 
-    expect(app.instance_variable_get('@put_log_url')).to eq 'http://localtesturl.local/put-request-log'
+      after do
+        BuuurstDev.configuration.put_log_url = 'https://lambda-public.buuurst.dev/put-request-log'
+      end
 
-    BuuurstDev.configuration.put_log_url = 'https://lambda-public.buuurst.dev/put-request-log'
+      it 'return changed put log url' do
+        expect(app.instance_variable_get('@put_log_url')).to eq 'http://localtesturl.local/put-request-log'
+      end
+    end
+
+    context 'when ignore path is defined' do
+      before do
+        BuuurstDev.configuration.ignore_paths = %w[/health]
+      end
+
+      after do
+        BuuurstDev.configuration.ignore_paths = []
+      end
+
+      it 'ignore setting path' do
+        WebMock.enable!
+        stub_request(:any, app.instance_variable_get('@put_log_url'))
+          .to_return(body: 'mock', status: 200, headers: {})
+
+        path = '/health'
+
+        collector = app
+        env = Rack::MockRequest.env_for(path)
+
+        collector._call(env)
+
+        expect(collector.instance_variable_get('@request_id')).to eq nil
+        expect(collector.instance_variable_get('@status')).to eq nil
+      end
+    end
   end
 
   it 'not change get request contents' do
@@ -191,26 +233,6 @@ RSpec.describe BuuurstDev do
       'X-Request-Id' => uuid
     )
     expect(collector.instance_variable_get('@response_body')).to eq body_str
-  end
-
-  it 'ignore setting path' do
-    BuuurstDev.configuration.ignore_paths = %w[/health]
-
-    WebMock.enable!
-    stub_request(:any, app.instance_variable_get('@put_log_url'))
-      .to_return(body: 'mock', status: 200, headers: {})
-
-    path = '/health'
-
-    collector = app
-    env = Rack::MockRequest.env_for(path)
-
-    collector._call(env)
-
-    expect(collector.instance_variable_get('@request_id')).to eq nil
-    expect(collector.instance_variable_get('@status')).to eq nil
-
-    BuuurstDev.configuration.ignore_paths = []
   end
 end
 # rubocop:enable Metrics/BlockLength
