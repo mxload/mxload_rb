@@ -128,7 +128,7 @@ RSpec.describe BuuurstDev do
     expect(collector.instance_variable_get('@path')).to eq path
     expect(collector.instance_variable_get('@query')).to eq Rack::Utils.parse_nested_query(query)
     expect(collector.instance_variable_get('@cookie')).to eq Rack::Utils.parse_cookies_header(cookie)
-    expect(collector.instance_variable_get('@headers')['HTTP_USER_AGENT']).to eq user_agent
+    expect(collector.instance_variable_get('@request_headers')['HTTP_USER_AGENT']).to eq user_agent
     expect(collector.instance_variable_get('@request_id')).to eq uuid
 
     BuuurstDev.configuration.service_key = nil
@@ -154,8 +154,8 @@ RSpec.describe BuuurstDev do
 
     expect(collector.instance_variable_get('@method')).to eq 'POST'
     expect(collector.instance_variable_get('@path')).to eq path
-    expect(collector.instance_variable_get('@body')).to eq json_str
-    expect(collector.instance_variable_get('@headers')).to include(
+    expect(collector.instance_variable_get('@request_body')).to eq json_str
+    expect(collector.instance_variable_get('@request_headers')).to include(
       'Content-Type' => 'application/json',
       'Authorization' => 'auth'
     )
@@ -163,16 +163,34 @@ RSpec.describe BuuurstDev do
     BuuurstDev.configuration.service_key = nil
   end
 
-  it 'get response log' do
+  it 'get response log at GET' do
     collector = app
     uuid = SecureRandom.uuid
     status = 200
-    headers = { 'X-Request-Id' => uuid }
-
-    collector.get_response_log(status, headers, {})
+    headers = {
+      'CONTENT_TYPE' => 'application/json',
+      'X-Request-Id' => uuid
+    }
+    body_str = <<~HTML
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Test</title>
+        </head>
+        <body>
+          <h1>Hello, world!</h1>
+        </body>
+      </html>
+    HTML
+    body = Rack::BodyProxy.new([body_str])
+    collector.get_response_log(status, headers, body)
 
     expect(collector.instance_variable_get('@request_id')).to eq uuid
     expect(collector.instance_variable_get('@status')).to eq status
+    expect(collector.instance_variable_get('@response_headers')).to include(
+      'X-Request-Id' => uuid
+    )
+    expect(collector.instance_variable_get('@response_body')).to eq body_str
   end
 
   it 'ignore setting path' do
