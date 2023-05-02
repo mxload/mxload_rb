@@ -71,7 +71,7 @@ module BuuurstDev # rubocop:disable Style/Documentation
         header: @request_headers, # TODO: change key name to request_headers
         body: @request_body, # TODO: change key name to request_body
         response_headers: @response_headers,
-        response_body: @request_body
+        response_body: @response_body
       }.to_json
     end
     # rubocop:enable Metrics/MethodLength
