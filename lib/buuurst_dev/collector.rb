@@ -141,9 +141,13 @@ module BuuurstDev # rubocop:disable Style/Documentation
     end
 
     def get_response_body(body)
-      @response_body = []
-      body.each { |chunk| @response_body << chunk }
-      @response_body = @response_body.join
+      @response_body = parse_json_string(body.join)
+    end
+
+    def parse_json_string(str)
+      JSON.parse(str)
+    rescue JSON::ParserError
+      str
     end
   end
 end
