@@ -8,6 +8,7 @@ variables:
 
 stages:
   - test
+  - misc
 
 .rspec-default: &rspec-default
   stage: test
@@ -81,3 +82,28 @@ ruby3.0-rails7.0:
     <<: *use-ruby3_0
     <<: *use-rails7_0
 
+##################################################
+########## Assign MergeRequest Job ###############
+##################################################
+
+.assign_mr: &assign_mr
+  stage: misc
+  image: alpine:3.18
+  before_script:
+    - echo "Start before_script | `date`"
+    - apk --update add --no-cache curl bash git openssh-client> /dev/null
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+    - mkdir -p -m 0700 ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - git clone ssh://git@git.drecom.jp:10022/diet/diet-ci-scripts.git /diet-ci-scripts
+  script:
+    - /diet-ci-scripts/assign-mr.sh
+
+assign-mr-to-random-user:
+  <<: *assign_mr
+  needs: []
+  rules:
+    - if: $CI_MERGE_REQUEST_IID
+      when: manual
+      allow_failure: true
