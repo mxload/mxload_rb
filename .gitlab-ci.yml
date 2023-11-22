@@ -7,8 +7,8 @@ variables:
   RAILS_ENV: 'test'
 
 stages:
-  - misc
   - test
+  - misc
 
 .rspec-default: &rspec-default
   stage: test
