@@ -60,7 +60,7 @@ RSpec.describe BuuurstDev do
 
     context 'when default put log url is defined' do
       it 'retun default put log url' do
-        expect(app.instance_variable_get('@put_log_url')).to eq 'https://lambda-public.buuurst.dev/put-request-log'
+        expect(app.instance_variable_get('@put_log_url')).to eq 'https://lambda-public.mxload.mx/put-request-log'
       end
     end
 
@@ -70,7 +70,7 @@ RSpec.describe BuuurstDev do
       end
 
       after do
-        BuuurstDev.configuration.put_log_url = 'https://lambda-public.buuurst.dev/put-request-log'
+        BuuurstDev.configuration.put_log_url = 'https://lambda-public.mxload.mx/put-request-log'
       end
 
       it 'return changed put log url' do
