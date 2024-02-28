@@ -40,7 +40,7 @@ Create initializer file at config/initializer/buuurst_dev.rb and write bellow co
 - project_id
     - used for identifying loadtest target app
 - service_key
-    - used for identifying request user, get at [account info page in BUUURST.DEV BETA](https://buuurst.dev/accounts)
+    - used for identifying request user, get at [account info page in Mx.Load](https://app.mxload.mx/accounts) 
 - put_log_url (optional)
     - used for changing put log destination url
 - custom_header (optional)
