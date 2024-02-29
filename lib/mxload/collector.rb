@@ -141,7 +141,9 @@ module Mxload # rubocop:disable Style/Documentation
     end
 
     def get_response_body(body)
-      @response_body = parse_json_string(body.join)
+      body_content = []
+      body.each { |part| body_content << part }
+      @response_body = parse_json_string(body_content.join)
     end
 
     def parse_json_string(str)
