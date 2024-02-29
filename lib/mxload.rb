@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative 'buuurst_dev/version'
+require_relative 'mxload/version'
 
-module BuuurstDev
+module Mxload
   class Error < StandardError; end
   # Your code goes here...
 end

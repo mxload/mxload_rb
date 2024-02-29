@@ -10,34 +10,34 @@ require 'rack/test'
 require 'webmock/rspec'
 
 require 'test_application'
-require 'buuurst_dev/collector'
+require 'mxload/collector'
 require 'config/routes'
 
 # rubocop:disable Metrics/BlockLength
-RSpec.describe BuuurstDev do
+RSpec.describe Mxload do
   it 'has a version number' do
-    expect(BuuurstDev::VERSION).not_to be nil
+    expect(Mxload::VERSION).not_to be nil
   end
 
   include Rack::Test::Methods
   include TestApplication
 
   def app
-    BuuurstDev::Collector.new(Rails.application)
+    Mxload::Collector.new(Rails.application)
   end
 
-  BuuurstDev.configuration.custom_header = %w[Content-Type Authorization]
+  Mxload.configuration.custom_header = %w[Content-Type Authorization]
 
   describe 'configuration' do
     context 'when send log is disabled' do
       before do
-        BuuurstDev.configuration.enable = false
-        BuuurstDev.configuration.service_key = 'service_key'
+        Mxload.configuration.enable = false
+        Mxload.configuration.service_key = 'service_key'
       end
 
       after do
-        BuuurstDev.configuration.enable = true
-        BuuurstDev.configuration.service_key = nil
+        Mxload.configuration.enable = true
+        Mxload.configuration.service_key = nil
       end
 
       it 'does not send log' do
@@ -66,11 +66,11 @@ RSpec.describe BuuurstDev do
 
     context 'when put log url is changed' do
       before do
-        BuuurstDev.configuration.put_log_url = 'http://localtesturl.local/put-request-log'
+        Mxload.configuration.put_log_url = 'http://localtesturl.local/put-request-log'
       end
 
       after do
-        BuuurstDev.configuration.put_log_url = 'https://lambda-public.mxload.mx/put-request-log'
+        Mxload.configuration.put_log_url = 'https://lambda-public.mxload.mx/put-request-log'
       end
 
       it 'return changed put log url' do
@@ -80,11 +80,11 @@ RSpec.describe BuuurstDev do
 
     context 'when ignore path is defined' do
       before do
-        BuuurstDev.configuration.ignore_paths = %w[/health]
+        Mxload.configuration.ignore_paths = %w[/health]
       end
 
       after do
-        BuuurstDev.configuration.ignore_paths = []
+        Mxload.configuration.ignore_paths = []
       end
 
       it 'ignore setting path' do
@@ -147,7 +147,7 @@ RSpec.describe BuuurstDev do
   end
 
   it 'get request log at GET' do
-    BuuurstDev.configuration.service_key = 'service_key'
+    Mxload.configuration.service_key = 'service_key'
 
     path = '/api/get'
     query = 'key1=value1&key2=value2'
@@ -173,11 +173,11 @@ RSpec.describe BuuurstDev do
     expect(collector.instance_variable_get('@request_headers')['HTTP_USER_AGENT']).to eq user_agent
     expect(collector.instance_variable_get('@request_id')).to eq uuid
 
-    BuuurstDev.configuration.service_key = nil
+    Mxload.configuration.service_key = nil
   end
 
   it 'get request log at POST' do
-    BuuurstDev.configuration.service_key = 'service_key'
+    Mxload.configuration.service_key = 'service_key'
     path = '/api/post'
     user_id = 'user-id'
     json_str = JSON.generate(key: [{ user_id: user_id }])
@@ -202,7 +202,7 @@ RSpec.describe BuuurstDev do
       'Authorization' => 'auth'
     )
 
-    BuuurstDev.configuration.service_key = nil
+    Mxload.configuration.service_key = nil
   end
 
   it 'get response log at GET' do

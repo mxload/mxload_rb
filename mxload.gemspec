@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require_relative 'lib/buuurst_dev/version'
+require_relative 'lib/mxload/version'
 
 Gem::Specification.new do |spec|
-  spec.name = 'buuurst_dev'
-  spec.version = BuuurstDev::VERSION
+  spec.name = 'mxload'
+  spec.version = Mxload::VERSION
   spec.authors = ['kiichi.koyasu']
   spec.email = ['kiichi.koyasu@drecom.co.jp']
 
   spec.summary = 'Collecting request log for auto loadtest.'
   spec.description = 'For mxload.mx, collect request data, uri, header, body, etc.'
-  spec.homepage = 'https://github.com/drecom/buuurst_dev_rb'
+  spec.homepage = 'https://github.com/mxload/mxload_rb'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 2.6.0'
 
