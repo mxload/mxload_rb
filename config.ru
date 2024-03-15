@@ -2,7 +2,7 @@
 
 require 'active_support/all'
 
-require_relative 'lib/buuurst_dev/collector'
+require_relative 'lib/mxload/collector'
 
 # rack app for on local
 class App
@@ -12,5 +12,5 @@ class App
 end
 
 Time.zone = 'Asia/Tokyo'
-use BuuurstDev::Collector
+use Mxload::Collector
 run App.new

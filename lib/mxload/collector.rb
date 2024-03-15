@@ -7,7 +7,7 @@ require 'action_dispatch/http/headers'
 
 require 'gem_config'
 
-module BuuurstDev # rubocop:disable Style/Documentation
+module Mxload # rubocop:disable Style/Documentation
   include GemConfig::Base
 
   with_configuration do
@@ -23,12 +23,12 @@ module BuuurstDev # rubocop:disable Style/Documentation
   class Collector
     def initialize(app)
       @app = app
-      @enable = BuuurstDev.configuration.enable
-      @project_id = BuuurstDev.configuration.project_id
-      @service_key = BuuurstDev.configuration.service_key
-      @put_log_url = BuuurstDev.configuration.put_log_url
-      @custom_header = BuuurstDev.configuration.custom_header
-      @ignore_paths = BuuurstDev.configuration.ignore_paths
+      @enable = Mxload.configuration.enable
+      @project_id = Mxload.configuration.project_id
+      @service_key = Mxload.configuration.service_key
+      @put_log_url = Mxload.configuration.put_log_url
+      @custom_header = Mxload.configuration.custom_header
+      @ignore_paths = Mxload.configuration.ignore_paths
     end
 
     def call(env)
@@ -141,7 +141,9 @@ module BuuurstDev # rubocop:disable Style/Documentation
     end
 
     def get_response_body(body)
-      @response_body = parse_json_string(body.join)
+      body_content = []
+      body.each { |part| body_content << part }
+      @response_body = parse_json_string(body_content.join)
     end
 
     def parse_json_string(str)

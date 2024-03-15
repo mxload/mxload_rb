@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'buuurst_dev'
+require 'mxload'
 
 ENV['RAILS_ENV'] ||= 'test'
 

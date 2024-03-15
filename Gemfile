@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in buuurst_dev.gemspec
+# Specify your gem's dependencies in mxload.gemspec
 gemspec
 
 gem 'psych', '< 4.0.0'
