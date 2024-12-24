@@ -5,7 +5,7 @@
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'mxload', github: 'mxload/mxload_rb' , tag: 'v0.1.4'
+gem 'mxload', github: 'mxload/mxload_rb' , tag: 'v0.2.3'
 ```
 
 And then execute:
@@ -40,7 +40,7 @@ Create initializer file at config/initializer/mxload.rb and write bellow code.
 - project_id
     - used for identifying loadtest target app
 - service_key
-    - used for identifying request user, get at [account info page in Mx.Load](https://app.mxload.mx/accounts) 
+    - used for identifying request user, get at [account info page in Mx.Load](https://app.mxload.mx/accounts)
 - put_log_url (optional)
     - used for changing put log destination url
 - custom_header (optional)
